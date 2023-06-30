@@ -15,15 +15,15 @@ class Engine:
 
     def run(self):
         if 'upper' in self.options:
-            self.updateWords(Uppercase(self.words).possibilities)
+            self.setWords(Uppercase(self.words).possibilities)
         if 'lower' in self.options:
-            self.updateWords(Lowercase(self.words).possibilities)
+            self.setWords(Lowercase(self.words).possibilities)
         if 'capitalize' in self.options:
-            self.updateWords(Capitalize(self.words).possibilities)
+            self.setWords(Capitalize(self.words).possibilities)
         if 'accent' in self.options:
-            self.updateWords(Accent(self.words).possibilities)
+            self.setWords(Accent(self.words).possibilities)
         if 'leet' in self.options:
-            self.updateWords(Leet(self.words).possibilities)
+            self.setWords(Leet(self.words).possibilities)
 
         print(self.words)
 
@@ -32,7 +32,7 @@ class Engine:
         # Créer une list avec toutes les combinaisons sous forme de string
         return self.fromArrayToString()
     
-    def updateWords(self, newWords):
+    def setWords(self, newWords):
         self.words = list(set(self.words + newWords))
 
     def permute_and_combine_list(self):
