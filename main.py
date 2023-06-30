@@ -6,4 +6,4 @@ datas = ["manger", "boire", "toto", "tata", "tutu", "été"]
 # print(Engine(datas).passwords)
 # print(len(Engine(datas).passwords))
 # print(Engine(datas, ["upper", "lower", "capitalize"]).passwords)
-print(len(Engine(datas, ["upper", "lower", "capitalize", "accent", "leet"]).passwords))
+print(len(Engine(datas, ["upper", "lower", "capitalize", "accent", "leet", "char"]).passwords))

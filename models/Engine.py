@@ -4,6 +4,7 @@ from .Word.Uppercase import Uppercase
 from .Word.Lowercase import Lowercase
 from .Word.Accent import Accent
 from .Word.Leet import Leet
+from .Char.CharManager import CharManager
 
 class Engine:
 
@@ -11,6 +12,7 @@ class Engine:
         self.words = words
         self.options = options
         self.possibilities = []
+        self.charManager = CharManager()
         self.passwords = self.run()
 
     def run(self):
@@ -24,6 +26,10 @@ class Engine:
             self.setWords(Accent(self.words).possibilities)
         if 'leet' in self.options:
             self.setWords(Leet(self.words).possibilities)
+        if 'char' in self.options:
+            self.setWords(self.charManager.char)
+        if 'allChar' in self.options:
+            self.setWords(self.charManager.allChar)
 
         print(self.words)
 
@@ -41,7 +47,7 @@ class Engine:
         permutations et combinations de la bibliothèque itertools et retourne une liste de
         toutes les permutations et combinaisons possibles.
         """
-        limit = 6 if len(self.words) > 5 else len(self.words)+1
+        limit = 4 if len(self.words) > 5 else len(self.words)+1
         for i in range(1, limit):
             # génère toutes les combinaisons de longueur i
             for combo in combinations(self.words, i):
