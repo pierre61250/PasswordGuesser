@@ -1,6 +1,11 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
-class WordManager():
+class Interface(ABC):
+    @abstractmethod
+    def transform(self):
+        pass
+
+class WordManager(Interface):
     @abstractmethod
     def __init__(self, words):
         self.__words = words
