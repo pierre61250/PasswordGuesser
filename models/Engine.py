@@ -5,6 +5,7 @@ from .Word.Lowercase import Lowercase
 from .Word.Accent import Accent
 from .Word.Leet import Leet
 from .Char.CharManager import CharManager
+from .Date.DateManager import DateManager
 
 class Engine:
 
@@ -16,6 +17,10 @@ class Engine:
         self.passwords = self.run()
 
     def run(self):
+        for word in self.words:
+            if DateManager.isDate(word):
+                self.setWords(DateManager(word).possibilities)
+
         if 'upper' in self.options:
             self.setWords(Uppercase(self.words).possibilities)
         if 'lower' in self.options:
@@ -31,7 +36,7 @@ class Engine:
         if 'allChar' in self.options:
             self.setWords(self.charManager.allChar)
 
-        print(self.words)
+        # print(self.words)
 
         # Mets en place toutes les combinaisons
         self.permute_and_combine_list()
