@@ -266,3 +266,109 @@ Lorsque nous instancions **WordManager** et appelons la méthode **transform**, 
 En utilisant des classes abstraites et des méthodes abstraites, vous pouvez définir des contrats d'interface et obliger les classes dérivées à fournir une implémentation spécifique. Bien qu'il ne s'agisse pas d'une véritable interface en termes de restriction de la signature des méthodes, cela permet de créer une structure similaire à une interface et de garantir une certaine cohérence dans l'utilisation des classes dérivées.
 
 Il est important de noter que l'utilisation des interfaces est une pratique optionnelle en Python. Dans de nombreux cas, il est possible de concevoir des classes sans interfaces explicites en tirant parti du duck typing et de la flexibilité inhérente de Python.
+
+## Méthodes et attributs d'objets
+En programmation orientée objet (POO) en Python, vous pouvez utiliser des méthodes et des attributs d'objets pour interagir avec les objets créés à partir de classes. Voici comment utiliser ces méthodes et attributs :
+
+### Méthodes d'objet :
+Les méthodes d'objet sont des fonctions définies à l'intérieur d'une classe et sont spécifiques à chaque instance de la classe. Vous pouvez appeler ces méthodes sur des objets individuels pour effectuer des opérations spécifiques. Par exemple :
+
+```python
+class Engine:
+
+    def __init__(self, words, options = []):
+        self.words = words
+        self.options = options
+        self.possibilities = []
+        self.charManager = CharManager()
+        self.passwords = self.run()
+
+    def run(self):
+        if 'upper' in self.options:
+            self.setWords(Uppercase(self.words).possibilities)
+        if 'lower' in self.options:
+            self.setWords(Lowercase(self.words).possibilities)
+        if 'capitalize' in self.options:
+            self.setWords(Capitalize(self.words).possibilities)
+        if 'accent' in self.options:
+            self.setWords(Accent(self.words).possibilities)
+        if 'leet' in self.options:
+            self.setWords(Leet(self.words).possibilities)
+        if 'char' in self.options:
+            self.setWords(self.charManager.char)
+        if 'allChar' in self.options:
+            self.setWords(self.charManager.allChar)
+
+        print(self.words)
+
+        # Mets en place toutes les combinaisons
+        self.permute_and_combine_list()
+        # Créer une list avec toutes les combinaisons sous forme de string
+        return self.fromArrayToString()
+    
+    def setWords(self, newWords):
+        self.words = list(set(self.words + newWords))
+
+    def permute_and_combine_list(self):
+        """
+        Permute et combine les éléments de la liste donnée en utilisant les méthodes
+        permutations et combinations de la bibliothèque itertools et retourne une liste de
+        toutes les permutations et combinaisons possibles.
+        """
+        limit = 4 if len(self.words) > 5 else len(self.words)+1
+        for i in range(1, limit):
+            # génère toutes les combinaisons de longueur i
+            for combo in combinations(self.words, i):
+                # génère toutes les permutations pour chaque combinaison
+                for perm in permutations(combo):
+                    self.possibilities.append(perm)
+    
+    def fromArrayToString(self):
+        result = []
+        for item in self.possibilities:
+            result.append(''.join(item))
+        return result
+```
+
+La méthode **setWords()** est définie dans la classe **Engine** et peut être appelée sur des instances spécifiques de la classe en utilisant la notation **Engine.setWords()**. Dans ce cas présent la classe **Engine** appel sa propre méthode **setWords()** avec la notation suivante **self.setWords()**.
+
+### Attributs d'objet :
+Les attributs d'objet sont des variables qui sont définies à l'intérieur d'une classe et sont spécifiques à chaque instance de la classe. Vous pouvez accéder et modifier ces attributs en utilisant la notation dot (.) sur les objets individuels. Par exemple :
+
+```python
+self.setWords(Uppercase(self.words).possibilities)
+
+class Uppercase(WordManager):
+
+    def __init__(self, words):
+        super().__init__(words)
+
+    def transform(self):
+        result = []
+        for word in self.words:
+            result.append(word.upper())
+        return result
+
+class WordManager(Interface):
+    @abstractmethod
+    def __init__(self, words):
+        self.__words = words
+        self.possibilities = self.run()
+
+    @property
+    def words(self):
+        return self.__words
+
+    def run(self):
+        # Lance la methode de transformation
+        return self.transform()
+
+    def transform(self):
+        return [];
+```
+
+L'attribut **possibilities** est défini dans la méthode __init__() de la classe **Uppercase** elle même hérité de la classe **WordManager** et peut être accédé ou modifié en utilisant **Uppercase.possibilities**.
+
+Les méthodes d'objet permettent aux objets de réaliser des actions et d'effectuer des calculs spécifiques, tandis que les attributs d'objet permettent aux objets de stocker et de maintenir des informations spécifiques à eux-mêmes.
+
+Lorsque vous créez des classes et des objets, vous pouvez définir et utiliser des méthodes et des attributs selon les besoins de votre programme. Cela vous permet de modéliser des comportements et des états spécifiques pour vos objets et d'interagir avec eux de manière appropriée.
