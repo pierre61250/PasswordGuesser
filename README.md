@@ -230,3 +230,39 @@ L'héritage permet d'établir une hiérarchie de classes, où les classes dériv
 
 En plus de l'héritage simple, Python prend également en charge d'autres concepts d'héritage, tels que l'héritage multiple (une classe peut hériter de plusieurs classes de base) et l'héritage hiérarchique (une classe peut être à la fois une classe de base pour une classe dérivée et une classe dérivée d'une autre classe). Ces concepts supplémentaires offrent une plus grande flexibilité lors de la conception des classes dans vos programmes Python.
 
+## Interface
+En Python, contrairement à certains autres langages de programmation orientée objet, il n'existe pas de structure intégrée spécifique pour les interfaces. Cependant, vous pouvez utiliser des classes abstraites pour créer une forme d'interface en Python en utilisant le module abc (Abstract Base Classes) du module standard de Python.
+
+```python
+class Interface(ABC):
+    @abstractmethod
+    def transform(self):
+        pass
+
+class WordManager(Interface):
+    @abstractmethod
+    def __init__(self, words):
+        self.__words = words
+        self.possibilities = self.run()
+
+    @property
+    def words(self):
+        return self.__words
+
+    def run(self):
+        # Lance la methode de transformation
+        return self.transform()
+
+    def transform(self):
+        return [];
+```
+
+Dans cet exemple, nous créons une classe abstraite **Interface** qui hérite de la classe **ABC** du module *abc*. La méthode **transform** est décorée avec le décorateur @abstractmethod, ce qui la rend obligatoire à implémenter dans les classes dérivées.
+
+Ensuite, nous définissons une classe **WordManager** qui implémente l'interface **Interface** en fournissant une implémentation de la méthode **transform**.
+
+Lorsque nous instancions **WordManager** et appelons la méthode **transform**, l'implémentation de la classe **WordManager** est utilisée.
+
+En utilisant des classes abstraites et des méthodes abstraites, vous pouvez définir des contrats d'interface et obliger les classes dérivées à fournir une implémentation spécifique. Bien qu'il ne s'agisse pas d'une véritable interface en termes de restriction de la signature des méthodes, cela permet de créer une structure similaire à une interface et de garantir une certaine cohérence dans l'utilisation des classes dérivées.
+
+Il est important de noter que l'utilisation des interfaces est une pratique optionnelle en Python. Dans de nombreux cas, il est possible de concevoir des classes sans interfaces explicites en tirant parti du duck typing et de la flexibilité inhérente de Python.
