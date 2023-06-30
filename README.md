@@ -372,3 +372,154 @@ L'attribut **possibilities** est défini dans la méthode __init__() de la class
 Les méthodes d'objet permettent aux objets de réaliser des actions et d'effectuer des calculs spécifiques, tandis que les attributs d'objet permettent aux objets de stocker et de maintenir des informations spécifiques à eux-mêmes.
 
 Lorsque vous créez des classes et des objets, vous pouvez définir et utiliser des méthodes et des attributs selon les besoins de votre programme. Cela vous permet de modéliser des comportements et des états spécifiques pour vos objets et d'interagir avec eux de manière appropriée.
+
+## Méthodes et attributs statiques
+En programmation orientée objet (POO) en Python, vous pouvez définir des méthodes et des attributs statiques dans une classe. Les méthodes et les attributs statiques appartiennent à la classe elle-même plutôt qu'à une instance spécifique de la classe. Ils sont partagés par toutes les instances de la classe et peuvent être utilisés sans avoir besoin d'instancier la classe.
+
+### Méthodes statiques :
+Les méthodes statiques sont des méthodes définies dans une classe qui n'opèrent pas sur une instance spécifique de la classe. Elles sont décorées avec le décorateur @staticmethod. Vous pouvez appeler ces méthodes directement sur la classe elle-même, sans avoir besoin d'instancier la classe. Par exemple :
+
+```python
+class DateManager():
+    def __init__(self, date):
+        self.date = datetime.strptime(date, "%Y-%m-%d")
+        self.possibilities = self.run()
+
+    @staticmethod
+    def isDate(date):
+        try:
+            datetime.strptime(date, "%Y-%m-%d")
+            return True
+        except ValueError:
+            return False
+
+    def run(self):
+        # Lance la methode de transformation
+        return self.transform()
+    
+    @staticmethod
+    def transformToFrench(month):
+        months_english = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        months_french = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
+        if month in months_english:
+            index = months_english.index(month)
+            return months_french[index]
+    
+    def numberToLetter(self):
+        month = self.date.strftime("%B");
+        return [month, self.transformToFrench(month)]
+    
+    def dateDecomposition(self):
+        return [self.date.strftime("%m"), self.date.strftime("%d"), self.date.strftime("%Y"), str(self.date.month), str(self.date.day), self.date.strftime("%y")]
+
+    def transform(self):
+        return self.numberToLetter() + self.dateDecomposition();
+
+# Exemple d'utilisation :
+for word in self.words:
+    if DateManager.isDate(word):
+        self.setWords(DateManager(word).possibilities)
+```
+
+La méthode **isDate()** est définie en utilisant le décorateur @staticmethod et peut être appelée directement sur la classe DateManager sans avoir besoin d'instancier la classe.
+
+### Attributs statiques :
+Les attributs statiques sont des variables qui sont définies dans une classe et partagées par toutes les instances de la classe. Ils sont définis à l'intérieur de la classe, mais à l'extérieur des méthodes, en tant que variables de classe. Par exemple :
+
+```python
+class DateManager():
+    months_english = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    months_french = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
+    
+    def __init__(self, date):
+        self.date = datetime.strptime(date, "%Y-%m-%d")
+        self.possibilities = self.run()
+
+    @staticmethod
+    def isDate(date):
+        try:
+            datetime.strptime(date, "%Y-%m-%d")
+            return True
+        except ValueError:
+            return False
+
+    def run(self):
+        # Lance la methode de transformation
+        return self.transform()
+    
+    @staticmethod
+    def transformToFrench(month):
+        if month in DateManager.months_english:
+            index = DateManager.months_english.index(month)
+            return DateManager.months_french[index]
+    
+    def numberToLetter(self):
+        month = self.date.strftime("%B");
+        return [month, self.transformToFrench(month)]
+    
+    def dateDecomposition(self):
+        return [self.date.strftime("%m"), self.date.strftime("%d"), self.date.strftime("%Y"), str(self.date.month), str(self.date.day), self.date.strftime("%y")]
+
+    def transform(self):
+        return self.numberToLetter() + self.dateDecomposition();
+```
+
+L'attribut **months_english** est défini à l'intérieur de la classe **DateManager** et peut être accédé directement sur la classe elle-même.
+
+Les méthodes et les attributs statiques sont utiles lorsque vous avez des fonctionnalités qui ne dépendent pas de l'état spécifique d'une instance de classe, mais plutôt de la classe elle-même ou de données partagées par toutes les instances de la classe. Ils offrent une manière pratique d'organiser et de regrouper ces fonctionnalités au sein de la classe.
+
+Il est important de noter que les méthodes et les attributs statiques en Python ne nécessitent pas l'utilisation du mot-clé static comme dans certains autres langages de programmation. Vous pouvez simplement utiliser les décorateurs @staticmethod pour les méthodes statiques et définir les attributs statiques en tant que variables de classe.
+
+## Méthodes et les attributs de classe
+En programmation orientée objet (POO) en Python, les méthodes et les attributs de classe sont associés à la classe elle-même plutôt qu'à une instance spécifique de la classe. Vous pouvez les définir en utilisant le décorateur @classmethod pour les méthodes de classe et en les déclarant directement dans la classe pour les attributs de classe. Voici un exemple :
+
+```python
+class DateManager():
+    months_english = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    months_french = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
+    
+    def __init__(self, date):
+        self.date = datetime.strptime(date, "%Y-%m-%d")
+        self.possibilities = self.run()
+
+    @staticmethod
+    def isDate(date):
+        try:
+            datetime.strptime(date, "%Y-%m-%d")
+            return True
+        except ValueError:
+            return False
+
+    def run(self):
+        # Lance la methode de transformation
+        return self.transform()
+    
+    @staticmethod
+    def transformToFrench(month):
+        if month in DateManager.months_english:
+            index = DateManager.months_english.index(month)
+            return DateManager.months_french[index]
+    
+    def numberToLetter(self):
+        month = self.date.strftime("%B");
+        return [month, self.transformToFrench(month)]
+    
+    def dateDecomposition(self):
+        return [self.date.strftime("%m"), self.date.strftime("%d"), self.date.strftime("%Y"), str(self.date.month), str(self.date.day), self.date.strftime("%y")]
+
+    @classmethod
+    def transform(self):
+        return self.numberToLetter() + self.dateDecomposition();
+```
+
+Dans cet exemple, nous définissons une classe **DateManager** avec un attribut de classe **months_french** et deux méthodes : **transform** et **transformToFrench**.
+
+L'attribut de classe **months_french** est déclaré directement à l'intérieur de la classe **DateManager**. Il peut être accédé en utilisant le nom de la classe suivi du nom de l'attribut (**DateManager.months_french**).
+
+La méthode de classe class_method est décorée avec @classmethod. Elle prend un premier argument cls qui fait référence à la classe elle-même. Vous pouvez utiliser cls pour accéder aux attributs de classe ou appeler d'autres méthodes de classe.
+
+La méthode statique static_method est déclarée en utilisant le décorateur @staticmethod. Contrairement à la méthode de classe, elle n'a pas de premier argument spécial pour la classe. Vous pouvez l'appeler directement à partir de la classe sans créer d'instance de la classe.
+
+L'exemple montre comment accéder à un attribut de classe, appeler une méthode de classe et appeler une méthode statique.
+
+Il est important de noter que les méthodes de classe et les attributs de classe sont partagés par toutes les instances de la classe et peuvent être utilisés sans avoir besoin d'instancier la classe.

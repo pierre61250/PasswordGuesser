@@ -1,6 +1,9 @@
 from datetime import datetime
 
 class DateManager():
+    months_english = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    months_french = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
+    
     def __init__(self, date):
         self.date = datetime.strptime(date, "%Y-%m-%d")
         self.possibilities = self.run()
@@ -19,11 +22,9 @@ class DateManager():
     
     @staticmethod
     def transformToFrench(month):
-        months_english = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        months_french = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
-        if month in months_english:
-            index = months_english.index(month)
-            return months_french[index]
+        if month in DateManager.months_english:
+            index = DateManager.months_english.index(month)
+            return DateManager.months_french[index]
     
     def numberToLetter(self):
         month = self.date.strftime("%B");
